@@ -34,7 +34,7 @@ module.exports = function (filename, callback) {
                         let packageName = results[0];
                         const match = packageName.match(/name='([^']+)'[\s]*versionCode='(\d+)'[\s]*versionName='([^']+)/);
                         const info = {
-                            packageName: match[1],
+                            package: match[1],
                             versionCode: match[2],
                             versionName: match[3]
                         };

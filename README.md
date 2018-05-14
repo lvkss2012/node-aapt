@@ -1,3 +1,7 @@
+# fork
+
+添加获取appname功能
+
 # node-aapt [![npm version](https://badge.fury.io/js/node-aapt.svg)][npm] [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)][license] [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d6b1946a62c0453ebecef8e7ad1024e6)][codacy]
 
 ## Install

@@ -17,19 +17,32 @@ module.exports = function (filename, callback) {
                 reject(err);
                 callback(err, null);
             } else {
-                const cmd = [aapt, 'dump', 'badging', filename, '|', 'grep', 'package'].join(' ');
+                const cmd = [aapt, 'dump', 'badging', filename, '|', 'egrep', '"package|application:"'].join(' ');
                 exec(cmd, (err, stdout, stderr) => {
                     const error = err || stderr;
                     if (error) {
                         reject(error);
                         callback(error, null);
                     } else {
-                        // const match = stdout.match(/name='([^']+)'[\s]*versionCode='(\d+)'[\s]*versionName='([^']+)/);
-                        // const info = {
-                        //     packageName: match[1],
-                        //     versionCode: match[2],
-                        //     versionName: match[3],
-                        // };
+                        let results = stdout.split('\n');
+                        if (!results instanceof Array || results.length < 2) {
+                            reject(results);
+                            callback(results, null);
+                            return;
+                        }
+
+                        let packageName = results[0];
+                        const match = packageName.match(/name='([^']+)'[\s]*versionCode='(\d+)'[\s]*versionName='([^']+)/);
+                        const info = {
+                            packageName: match[1],
+                            versionCode: match[2],
+                            versionName: match[3]
+                        };
+
+                        let application = results[1];
+                        const matchApp = application.match(/label='([^']+)'/);
+                        info.appName = matchApp.length > 1 ? matchApp[1] : '';
+
                         resolve(info);
                         callback(null, info);
                     }
